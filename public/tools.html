@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KelvinVMXZ - Tools</title>
+    <link rel="stylesheet" href="style/panel.css">
+    <link rel="stylesheet" href="style/tools.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-skull-crossbones"></i>
+                    <h2>KelvinVMXZ</h2>
+                </div>
+                <p class="user-plan" id="userPlan">Ultimate</p>
+            </div>
+            
+            <div class="user-info">
+                <div class="avatar">
+                    <i class="fas fa-user-secret"></i>
+                </div>
+                <div class="user-details">
+                    <h3 id="usernameDisplay">Admin</h3>
+                    <p id="userRole">Owner</p>
+                </div>
+            </div>
+            
+            <ul class="nav-menu">
+                <li>
+                    <a href="panel.html">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="attacks.html">
+                        <i class="fas fa-bolt"></i>
+                        <span>Attack Hub</span>
+                        <span class="badge" id="ongoingBadge">0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="vps.html">
+                        <i class="fas fa-server"></i>
+                        <span>VPS Nodes</span>
+                        <span class="badge" id="vpsBadge">0</span>
+                    </a>
+                </li>
+                <li id="adminMenu" style="display: none;">
+                    <a href="users.html">
+                        <i class="fas fa-users-cog"></i>
+                        <span>User Management</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="logs.html">
+                        <i class="fas fa-history"></i>
+                        <span>Attack History</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="#">
+                        <i class="fas fa-tools"></i>
+                        <span>Tools</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="settings.html">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <div class="cnc-status">
+                    <div class="status-label">
+                        <i class="fas fa-plug"></i>
+                        <span>CNC Status:</span>
+                    </div>
+                    <div class="status-value" id="cncStatus">OFFLINE</div>
+                </div>
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchTools" placeholder="Search tools...">
+                </div>
+                
+                <div class="top-bar-right">
+                    <div class="quick-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-tools"></i>
+                            <span>Tools: <strong id="toolsCount">12</strong></span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-clock"></i>
+                            <span id="currentTime">00:00:00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="user-menu">
+                        <button class="notifications" id="notificationsBtn">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-count">0</span>
+                        </button>
+                        <button class="theme-toggle" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Tools Content -->
+            <div class="content-area">
+                <div class="tools-management">
+                    <div class="page-header">
+                        <h1><i class="fas fa-tools"></i> Advanced Tools</h1>
+                        <p>Network utilities and advanced attack tools</p>
+                    </div>
+                    
+                    <!-- Network Tools -->
+                    <div class="tools-section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-network-wired"></i> Network Analysis Tools</h3>
+                        </div>
+                        
+                        <div class="tools-grid">
+                            <div class="tool-card">
+                                <div class="tool-icon">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <div class="tool-info">
+                                    <h4>IP Lookup</h4>
+                                    <p>Get detailed information about any IP address</p>
+                                </div>
+                                <button class="tool-btn" onclick="openIPLookup()">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="tool-card">
+                                <div class="tool-icon">
+                                    <i class="fas fa-satellite-dish"></i>
+                                </div>
+                                <div class="tool-info">
+                                    <h4>Ping Test</h4>
+                                    <p>Test connectivity and latency to target</p>
+                                </div>
+                                <button class="tool-btn" onclick="openPingTest()">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="tool-card">
+                                <div class="tool-icon">
+                                    <i class="fas fa-door-open"></i>
+                                </div>
+                                <div class="tool-info">
+                                    <h4>Port Scanner</h4>
+                                    <p>Scan for open ports on target host</p>
+                                </div>
+                                <button class="tool-btn" onclick="openPortScanner()">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="tool-card">
+                                <div class="tool-icon">
+                                    <i class="fas fa-route"></i>
+                                </div>
+                                <div class="tool-info">
+                                    <h4>Traceroute</h4>
+                                    <p>Trace network path to destination</p>
+                                </div>
+                                <button class="tool-btn" onclick="openTraceroute()">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Attack Tools -->
+                    <div class="tools-section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-bomb"></i> Advanced Attack Tools</h3>
+                        </div>
+                        
+                        <div class="tools-grid">
+                            <div class="tool-card">
+                                <div class="tool-icon">
+                                    <i class="fas fa-sync-alt"></i>
+                                </div>
+                                <div class="tool-info">
+                                    <h4>Stress Test</h4>
+                                    <p>Advanced stress testing with custom patterns</p>
+                                </div>
+                                <button class="tool-btn" onclick="openStressTest()">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="tool-card">
+                                <div class="tool-icon">
+                                    <i class="fas fa-random"></i>
+                                </div>
+                                <div class="tool-info">
+                                    <h4>Random Generator</h4>
+                                    <p>Generate random attack patterns</p>
+                                </div>
+                                <button class="tool-btn" onclick="openRandomGen()">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="tool-card">
+                                <div class="tool-icon">
+                                    <i class="fas fa-layer-group"></i>
+                                </div>
+                                <div class="tool-info">
+                                    <h4>Multi-Vector</h4>
+                                    <p>Combination attack with multiple methods</p>
+                                </div>
+                                <button class="tool-btn" onclick="openMultiVector()">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="tool-card">
+                                <div class="tool-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="tool-info">
+                                    <h4>Scheduler</h4>
+                                    <p>Schedule attacks for specific times</p>
+                                </div>
+                                <button class="tool-btn" onclick="openScheduler()">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Utility Tools -->
+                    <div class="tools-section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-wrench"></i> Utility Tools</h3>
+                        </div>
+                        
+                        <div class="tools-grid">
+                            <div class="tool-card">
+                                <div class="tool-icon">
+                                    <i class="fas fa-terminal"></i>
+                                </div>
+                                <div class="tool-info">
+                                    <h4>SSH Terminal</h4>
+                                    <p>Direct SSH access to VPS nodes</p>
+                                </div>
+                                <button class="tool-btn" onclick="openSSHTerminal()">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="tool-card">
+                                <div class="tool-icon">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <div class="tool-info">
+                                    <h4>Script Editor</h4>
+                                    <p>Edit and create custom attack scripts</p>
+                                </div>
+                                <button class="tool-btn" onclick="openScriptEditor()">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="tool-card">
+                                <div class="tool-icon">
+                                    <i class="fas fa-download"></i>
+                                </div>
+                                <div class="tool-info">
+                                    <h4>Script Manager</h4>
+                                    <p>Manage and update attack scripts</p>
+                                </div>
+                                <button class="tool-btn" onclick="openScriptManager()">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="tool-card">
+                                <div class="tool-icon">
+                                    <i class="fas fa-key"></i>
+                                </div>
+                                <div class="tool-info">
+                                    <h4>Key Manager</h4>
+                                    <p>Manage SSH keys and credentials</p>
+                                </div>
+                                <button class="tool-btn" onclick="openKeyManager()">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="quick-actions-section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                        </div>
+                        
+                        <div class="actions-grid">
+                            <button class="action-btn" onclick="quickPing()">
+                                <i class="fas fa-wifi"></i>
+                                <span>Quick Ping</span>
+                            </button>
+                            <button class="action-btn" onclick="quickScan()">
+                                <i class="fas fa-search"></i>
+                                <span>Quick Scan</span>
+                            </button>
+                            <button class="action-btn" onclick="quickTest()">
+                                <i class="fas fa-vial"></i>
+                                <span>Stress Test</span>
+                            </button>
+                            <button class="action-btn" onclick="quickBackup()">
+                                <i class="fas fa-save"></i>
+                                <span>Backup Config</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <footer class="footer">
+                <p>KelvinVMXZ Botnet Pro v2.0 • Tools • System Time: <span id="systemTime">--:--:--</span></p>
+                <p class="warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Use tools responsibly. Unauthorized network scanning may be illegal.
+                </p>
+            </footer>
+        </main>
+    </div>
+    
+    <!-- Notification Container -->
+    <div class="notification-container" id="notificationContainer"></div>
+    
+    <!-- Tool Modals -->
+    <div class="modal" id="ipLookupModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-search"></i> IP Lookup</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- IP lookup form will be here -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/auth.js"></script>
+    <script src="js/tools.js"></script>
+</body>
+</html>
