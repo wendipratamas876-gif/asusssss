@@ -2,7 +2,7 @@
   {
     "id": 1,
     "username": "admin",
-    "password": "$2a$10$XsgE7G5KQ9M6G7T8V1qV.OmKJdL8h9a8s7d6f5g4h3j2k1l0z9x8c7v6b5n4m3",
+    "password": "admin",
     "email": "admin@kelvinvmxz.com",
     "role": "owner",
     "createdAt": "2024-01-01T00:00:00.000Z",
