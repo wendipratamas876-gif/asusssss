@@ -1,1 +1,677 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KelvinVMXZ - Attack Hub</title>
+    <link rel="stylesheet" href="style/panel.css">
+    <link rel="stylesheet" href="style/attacks.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar sama seperti panel.html -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-skull-crossbones"></i>
+                    <h2>KelvinVMXZ</h2>
+                </div>
+                <p class="user-plan" id="userPlan">Ultimate</p>
+            </div>
+            
+            <div class="user-info">
+                <div class="avatar">
+                    <i class="fas fa-user-secret"></i>
+                </div>
+                <div class="user-details">
+                    <h3 id="usernameDisplay">Admin</h3>
+                    <p id="userRole">Owner</p>
+                </div>
+            </div>
+            
+            <ul class="nav-menu">
+                <li>
+                    <a href="panel.html">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="#">
+                        <i class="fas fa-bolt"></i>
+                        <span>Attack Hub</span>
+                        <span class="badge" id="ongoingBadge">0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="vps.html">
+                        <i class="fas fa-server"></i>
+                        <span>VPS Nodes</span>
+                        <span class="badge" id="vpsBadge">0</span>
+                    </a>
+                </li>
+                <li id="adminMenu" style="display: none;">
+                    <a href="users.html">
+                        <i class="fas fa-users-cog"></i>
+                        <span>User Management</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="logs.html">
+                        <i class="fas fa-history"></i>
+                        <span>Attack History</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="tools.html">
+                        <i class="fas fa-tools"></i>
+                        <span>Tools</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="settings.html">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <div class="cnc-status">
+                    <div class="status-label">
+                        <i class="fas fa-plug"></i>
+                        <span>CNC Status:</span>
+                    </div>
+                    <div class="status-value" id="cncStatus">OFFLINE</div>
+                </div>
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchAttacks" placeholder="Search attacks by target, method...">
+                </div>
+                
+                <div class="top-bar-right">
+                    <div class="quick-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-bolt"></i>
+                            <span>Attacks: <strong id="quickAttacks">0</strong></span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-server"></i>
+                            <span>VPS: <strong id="quickVPS">0</strong></span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-clock"></i>
+                            <span id="currentTime">00:00:00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="user-menu">
+                        <button class="notifications" id="notificationsBtn">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-count">0</span>
+                        </button>
+                        <button class="theme-toggle" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Attack Hub Content -->
+            <div class="content-area">
+                <div class="attack-hub">
+                    <div class="page-header">
+                        <h1><i class="fas fa-bolt"></i> Attack Hub</h1>
+                        <p>Launch and manage DDoS attacks with powerful methods</p>
+                    </div>
+                    
+                    <div class="attack-controls">
+                        <button class="btn-new-attack" id="launchAttackBtn">
+                            <i class="fas fa-rocket"></i> Launch New Attack
+                        </button>
+                        <button class="btn-stop-all" id="stopAllBtn">
+                            <i class="fas fa-stop"></i> Stop All Attacks
+                        </button>
+                        <button class="btn-check-host" id="checkHostBtn">
+                            <i class="fas fa-search"></i> Check Host
+                        </button>
+                        <div class="quick-stats-bar">
+                            <span class="stat online">Online VPS: <strong id="onlineVPS">0</strong></span>
+                            <span class="stat methods">Methods: <strong>20</strong></span>
+                            <span class="stat power">Max Power: <strong>10Gbps</strong></span>
+                        </div>
+                    </div>
+                    
+                    <!-- Attack Wizard -->
+                    <div class="attack-wizard" id="attackWizard">
+                        <div class="wizard-header">
+                            <h3><i class="fas fa-hat-wizard"></i> Attack Wizard</h3>
+                            <button class="btn-close-wizard" id="closeWizard">&times;</button>
+                        </div>
+                        
+                        <div class="wizard-steps">
+                            <div class="step active" data-step="1">
+                                <div class="step-number">1</div>
+                                <div class="step-info">
+                                    <h4>Target Information</h4>
+                                    <p>Enter target details</p>
+                                </div>
+                            </div>
+                            <div class="step" data-step="2">
+                                <div class="step-number">2</div>
+                                <div class="step-info">
+                                    <h4>Attack Method</h4>
+                                    <p>Choose attack type</p>
+                                </div>
+                            </div>
+                            <div class="step" data-step="3">
+                                <div class="step-number">3</div>
+                                <div class="step-info">
+                                    <h4>Configuration</h4>
+                                    <p>Set parameters</p>
+                                </div>
+                            </div>
+                            <div class="step" data-step="4">
+                                <div class="step-number">4</div>
+                                <div class="step-info">
+                                    <h4>Launch</h4>
+                                    <p>Start attack</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="wizard-content">
+                            <div class="step-content active" data-step="1">
+                                <form id="targetForm">
+                                    <div class="form-group">
+                                        <label><i class="fas fa-globe-asia"></i> Target IP or Domain</label>
+                                        <input type="text" id="targetInput" placeholder="e.g., 192.168.1.1 or example.com" required>
+                                        <small class="form-help">Enter IP address or domain name</small>
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label><i class="fas fa-door-open"></i> Port</label>
+                                            <input type="number" id="portInput" value="80" min="1" max="65535" required>
+                                            <small class="form-help">Target port number</small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label><i class="fas fa-crosshairs"></i> Protocol</label>
+                                            <select id="protocolSelect">
+                                                <option value="tcp">TCP</option>
+                                                <option value="udp">UDP</option>
+                                                <option value="icmp">ICMP</option>
+                                                <option value="all">ALL</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="target-preview">
+                                        <div class="preview-header">
+                                            <i class="fas fa-eye"></i> Target Preview
+                                        </div>
+                                        <div class="preview-content">
+                                            <div class="preview-item">
+                                                <span>Target:</span>
+                                                <strong id="targetPreview">-</strong>
+                                            </div>
+                                            <div class="preview-item">
+                                                <span>Port:</span>
+                                                <strong id="portPreview">-</strong>
+                                            </div>
+                                            <div class="preview-item">
+                                                <span>Protocol:</span>
+                                                <strong id="protocolPreview">-</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="wizard-nav">
+                                        <button type="button" class="btn-next" data-next="2">
+                                            Next <i class="fas fa-arrow-right"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <div class="step-content" data-step="2">
+                                <div class="method-selection">
+                                    <h4><i class="fas fa-tools"></i> Select Attack Method</h4>
+                                    <p>Choose from 20+ powerful methods</p>
+                                    
+                                    <div class="method-categories">
+                                        <button class="category-btn active" data-category="all">All Methods</button>
+                                        <button class="category-btn" data-category="syn">SYN Flood</button>
+                                        <button class="category-btn" data-category="ack">ACK Flood</button>
+                                        <button class="category-btn" data-category="icmp">ICMP Flood</button>
+                                        <button class="category-btn" data-category="udp">UDP Flood</button>
+                                        <button class="category-btn" data-category="advanced">Advanced</button>
+                                    </div>
+                                    
+                                    <div class="methods-grid" id="methodsGrid">
+                                        <!-- Methods will be loaded by JavaScript -->
+                                    </div>
+                                </div>
+                                
+                                <div class="wizard-nav">
+                                    <button type="button" class="btn-prev" data-prev="1">
+                                        <i class="fas fa-arrow-left"></i> Back
+                                    </button>
+                                    <button type="button" class="btn-next" data-next="3">
+                                        Next <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="step-content" data-step="3">
+                                <div class="configuration">
+                                    <h4><i class="fas fa-sliders-h"></i> Attack Configuration</h4>
+                                    
+                                    <div class="config-section">
+                                        <h5><i class="fas fa-clock"></i> Timing Settings</h5>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label>Duration (seconds)</label>
+                                                <input type="number" id="durationInput" value="60" min="1" max="3600">
+                                                <div class="range-labels">
+                                                    <span>30s</span>
+                                                    <span>5m</span>
+                                                    <span>30m</span>
+                                                    <span>1h</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Attack Speed</label>
+                                                <select id="speedSelect">
+                                                    <option value="low">Low (Stealth)</option>
+                                                    <option value="medium" selected>Medium (Balanced)</option>
+                                                    <option value="high">High (Aggressive)</option>
+                                                    <option value="max">MAXIMUM</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="config-section">
+                                        <h5><i class="fas fa-bolt"></i> Power Settings</h5>
+                                        <div class="form-group">
+                                            <label>Power Level</label>
+                                            <input type="range" id="powerSlider" min="1" max="10" value="5">
+                                            <div class="power-indicator">
+                                                <span class="low">Low</span>
+                                                <span class="medium">Medium</span>
+                                                <span class="high">High</span>
+                                                <span class="extreme">EXTREME</span>
+                                            </div>
+                                            <div class="power-stats">
+                                                <div class="stat">
+                                                    <span>Estimated PPS:</span>
+                                                    <strong id="estimatedPPS">50,000</strong>
+                                                </div>
+                                                <div class="stat">
+                                                    <span>Bandwidth:</span>
+                                                    <strong id="estimatedBW">1.5 Gbps</strong>
+                                                </div>
+                                                <div class="stat">
+                                                    <span>VPS Used:</span>
+                                                    <strong id="vpsUsed">5</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="config-section">
+                                        <h5><i class="fas fa-user-shield"></i> User Limits</h5>
+                                        <div class="limits-info">
+                                            <div class="limit-item">
+                                                <span>Concurrent Attacks:</span>
+                                                <div class="limit-bar">
+                                                    <div class="limit-fill" id="concurrentFill" style="width: 20%"></div>
+                                                </div>
+                                                <span id="concurrentText">1/5</span>
+                                            </div>
+                                            <div class="limit-item">
+                                                <span>Daily Attacks:</span>
+                                                <div class="limit-bar">
+                                                    <div class="limit-fill" id="dailyFill" style="width: 60%"></div>
+                                                </div>
+                                                <span id="dailyText">6/10</span>
+                                            </div>
+                                            <div class="limit-item">
+                                                <span>Max Duration:</span>
+                                                <span class="limit-value">3600 seconds</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="wizard-nav">
+                                    <button type="button" class="btn-prev" data-prev="2">
+                                        <i class="fas fa-arrow-left"></i> Back
+                                    </button>
+                                    <button type="button" class="btn-next" data-next="4">
+                                        Next <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="step-content" data-step="4">
+                                <div class="launch-section">
+                                    <div class="launch-header">
+                                        <i class="fas fa-rocket"></i>
+                                        <h4>Ready to Launch Attack!</h4>
+                                    </div>
+                                    
+                                    <div class="attack-summary">
+                                        <h5>Attack Summary</h5>
+                                        <div class="summary-grid">
+                                            <div class="summary-item">
+                                                <span class="label">Target:</span>
+                                                <span class="value" id="summaryTarget">-</span>
+                                            </div>
+                                            <div class="summary-item">
+                                                <span class="label">Method:</span>
+                                                <span class="value method-badge" id="summaryMethod">-</span>
+                                            </div>
+                                            <div class="summary-item">
+                                                <span class="label">Duration:</span>
+                                                <span class="value" id="summaryDuration">-</span>
+                                            </div>
+                                            <div class="summary-item">
+                                                <span class="label">Power:</span>
+                                                <span class="value" id="summaryPower">-</span>
+                                            </div>
+                                            <div class="summary-item">
+                                                <span class="label">VPS Used:</span>
+                                                <span class="value" id="summaryVPS">-</span>
+                                            </div>
+                                            <div class="summary-item">
+                                                <span class="label">Estimated Impact:</span>
+                                                <span class="value impact-high" id="summaryImpact">-</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="command-preview">
+                                            <h6><i class="fas fa-terminal"></i> Generated Command</h6>
+                                            <div class="command-box">
+                                                <code id="generatedCommand">sudo timeout 60s hping3 -S --flood -p 80 192.168.1.1</code>
+                                                <button class="btn-copy-command" id="copyCommandBtn">
+                                                    <i class="fas fa-copy"></i> Copy
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="warning-box">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                            <p>This attack will utilize all available VPS nodes. Make sure you have permission to attack this target.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="launch-actions">
+                                        <button class="btn-launch-attack" id="finalLaunchBtn">
+                                            <i class="fas fa-bolt"></i> LAUNCH ATTACK
+                                        </button>
+                                        <button class="btn-schedule" id="scheduleBtn">
+                                            <i class="fas fa-calendar-plus"></i> Schedule
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="wizard-nav">
+                                    <button type="button" class="btn-prev" data-prev="3">
+                                        <i class="fas fa-arrow-left"></i> Back
+                                    </button>
+                                    <button type="button" class="btn-cancel" id="cancelWizardBtn">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Ongoing Attacks -->
+                    <div class="attacks-section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-play-circle"></i> Ongoing Attacks</h3>
+                            <div class="section-actions">
+                                <button class="btn-refresh" id="refreshAttacksBtn">
+                                    <i class="fas fa-sync-alt"></i> Refresh
+                                </button>
+                                <div class="filter-attacks">
+                                    <select id="filterAttacks">
+                                        <option value="all">All Attacks</option>
+                                        <option value="mine">My Attacks</option>
+                                        <option value="active">Active</option>
+                                        <option value="completed">Completed</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="attacks-list" id="attacksList">
+                            <!-- Attacks will be loaded by JavaScript -->
+                            <div class="loading-attacks">
+                                <div class="loader"></div>
+                                <p>Loading attacks...</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Methods -->
+                    <div class="quick-methods">
+                        <div class="section-header">
+                            <h3><i class="fas fa-bolt"></i> Quick Attack Methods</h3>
+                            <p>One-click attacks with default settings</p>
+                        </div>
+                        
+                        <div class="quick-methods-grid">
+                            <div class="quick-method" data-method="syn-pps">
+                                <div class="method-icon">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <div class="method-info">
+                                    <h4>SYN-PPS</h4>
+                                    <p>High packet rate SYN flood</p>
+                                    <span class="method-time">60s default</span>
+                                </div>
+                                <button class="btn-quick-attack">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="quick-method" data-method="syn-gbps">
+                                <div class="method-icon">
+                                    <i class="fas fa-network-wired"></i>
+                                </div>
+                                <div class="method-info">
+                                    <h4>SYN-GBPS</h4>
+                                    <p>High bandwidth SYN flood</p>
+                                    <span class="method-time">30s default</span>
+                                </div>
+                                <button class="btn-quick-attack">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="quick-method" data-method="ack-pps">
+                                <div class="method-icon">
+                                    <i class="fas fa-bullseye"></i>
+                                </div>
+                                <div class="method-info">
+                                    <h4>ACK-PPS</h4>
+                                    <p>High rate ACK flood</p>
+                                    <span class="method-time">60s default</span>
+                                </div>
+                                <button class="btn-quick-attack">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="quick-method" data-method="icmp-gbps">
+                                <div class="method-icon">
+                                    <i class="fas fa-satellite-dish"></i>
+                                </div>
+                                <div class="method-info">
+                                    <h4>ICMP-GBPS</h4>
+                                    <p>Bandwidth ICMP flood</p>
+                                    <span class="method-time">45s default</span>
+                                </div>
+                                <button class="btn-quick-attack">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Attack Statistics -->
+                    <div class="attack-stats">
+                        <div class="stats-card">
+                            <div class="stats-header">
+                                <i class="fas fa-chart-line"></i>
+                                <h4>Today's Statistics</h4>
+                            </div>
+                            <div class="stats-content">
+                                <div class="stat-item">
+                                    <span class="stat-label">Total Attacks:</span>
+                                    <span class="stat-value" id="todayAttacks">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Success Rate:</span>
+                                    <span class="stat-value success" id="successRate">0%</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Total Bandwidth:</span>
+                                    <span class="stat-value" id="totalBW">0 Gbps</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Avg Duration:</span>
+                                    <span class="stat-value" id="avgDuration">0s</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-card">
+                            <div class="stats-header">
+                                <i class="fas fa-history"></i>
+                                <h4>Recent Activity</h4>
+                            </div>
+                            <div class="stats-content">
+                                <div class="activity-list" id="recentActivity">
+                                    <div class="activity-item">
+                                        <div class="activity-icon success">
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        <div class="activity-info">
+                                            <p>SYN-PPS attack completed</p>
+                                            <span class="activity-time">2 minutes ago</span>
+                                        </div>
+                                    </div>
+                                    <div class="activity-item">
+                                        <div class="activity-icon warning">
+                                            <i class="fas fa-exclamation"></i>
+                                        </div>
+                                        <div class="activity-info">
+                                            <p>VPS #3 disconnected</p>
+                                            <span class="activity-time">5 minutes ago</span>
+                                        </div>
+                                    </div>
+                                    <div class="activity-item">
+                                        <div class="activity-icon">
+                                            <i class="fas fa-bolt"></i>
+                                        </div>
+                                        <div class="activity-info">
+                                            <p>New attack started by admin</p>
+                                            <span class="activity-time">10 minutes ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <footer class="footer">
+                <p>KelvinVMXZ Botnet Pro v2.0 • Attack Hub • System Time: <span id="systemTime">--:--:--</span></p>
+                <p class="warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Use responsibly. Unauthorized attacks are illegal.
+                </p>
+            </footer>
+        </main>
+    </div>
+    
+    <!-- Notification Container -->
+    <div class="notification-container" id="notificationContainer"></div>
+    
+    <!-- Check Host Modal -->
+    <div class="modal" id="checkHostModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-search"></i> Check Host Status</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="check-host-form">
+                    <div class="form-group">
+                        <label>Target IP/Hostname</label>
+                        <input type="text" id="checkHostInput" placeholder="e.g., 192.168.1.1 or example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Port</label>
+                        <input type="number" id="checkPortInput" value="80">
+                    </div>
+                    <div class="form-group">
+                        <label>Check Type</label>
+                        <select id="checkTypeSelect">
+                            <option value="tcp">TCP Port Check</option>
+                            <option value="ping">Ping (ICMP)</option>
+                            <option value="udp">UDP Port Check</option>
+                            <option value="full">Full Analysis</option>
+                        </select>
+                    </div>
+                    <div class="check-buttons">
+                        <button class="btn-check-now" id="checkNowBtn">
+                            <i class="fas fa-search"></i> Check Now
+                        </button>
+                        <button class="btn-check-multi">Check Multiple</button>
+                    </div>
+                </div>
+                <div class="check-results" id="checkResults" style="display: none;">
+                    <h4>Check Results</h4>
+                    <div class="results-content">
+                        <!-- Results will be shown here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Schedule Modal -->
+    <div class="modal" id="scheduleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-calendar-alt"></i> Schedule Attack</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Schedule form will be here -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/auth.js"></script>
+    <script src="js/attacks.js"></script>
+</body>
+</html>
