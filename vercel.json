@@ -17,7 +17,6 @@
     }
   ],
   "env": {
-    "JWT_SECRET": "@jwt_secret_kelvinvmxz",
     "NODE_ENV": "production"
   }
 }
