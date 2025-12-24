@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KelvinVMXZ - Settings</title>
+    <link rel="stylesheet" href="style/panel.css">
+    <link rel="stylesheet" href="style/settings.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-skull-crossbones"></i>
+                    <h2>KelvinVMXZ</h2>
+                </div>
+                <p class="user-plan" id="userPlan">Ultimate</p>
+            </div>
+            
+            <div class="user-info">
+                <div class="avatar">
+                    <i class="fas fa-user-secret"></i>
+                </div>
+                <div class="user-details">
+                    <h3 id="usernameDisplay">Admin</h3>
+                    <p id="userRole">Owner</p>
+                </div>
+            </div>
+            
+            <ul class="nav-menu">
+                <li>
+                    <a href="panel.html">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="attacks.html">
+                        <i class="fas fa-bolt"></i>
+                        <span>Attack Hub</span>
+                        <span class="badge" id="ongoingBadge">0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="vps.html">
+                        <i class="fas fa-server"></i>
+                        <span>VPS Nodes</span>
+                        <span class="badge" id="vpsBadge">0</span>
+                    </a>
+                </li>
+                <li id="adminMenu" style="display: none;">
+                    <a href="users.html">
+                        <i class="fas fa-users-cog"></i>
+                        <span>User Management</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="logs.html">
+                        <i class="fas fa-history"></i>
+                        <span>Attack History</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="tools.html">
+                        <i class="fas fa-tools"></i>
+                        <span>Tools</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="#">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <div class="cnc-status">
+                    <div class="status-label">
+                        <i class="fas fa-plug"></i>
+                        <span>CNC Status:</span>
+                    </div>
+                    <div class="status-value" id="cncStatus">OFFLINE</div>
+                </div>
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search settings...">
+                </div>
+                
+                <div class="top-bar-right">
+                    <div class="quick-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-database"></i>
+                            <span>DB Size: <strong id="dbSize">2.4MB</strong></span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-clock"></i>
+                            <span id="currentTime">00:00:00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="user-menu">
+                        <button class="notifications" id="notificationsBtn">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-count">0</span>
+                        </button>
+                        <button class="theme-toggle" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Settings Content -->
+            <div class="content-area">
+                <div class="settings-management">
+                    <div class="page-header">
+                        <h1><i class="fas fa-cog"></i> System Settings</h1>
+                        <p>Configure system preferences and options</p>
+                    </div>
+                    
+                    <div class="settings-tabs">
+                        <div class="tab-buttons">
+                            <button class="tab-btn active" data-tab="general">
+                                <i class="fas fa-sliders-h"></i> General
+                            </button>
+                            <button class="tab-btn" data-tab="security">
+                                <i class="fas fa-shield-alt"></i> Security
+                            </button>
+                            <button class="tab-btn" data-tab="notifications">
+                                <i class="fas fa-bell"></i> Notifications
+                            </button>
+                            <button class="tab-btn" data-tab="appearance">
+                                <i class="fas fa-palette"></i> Appearance
+                            </button>
+                            <button class="tab-btn" data-tab="advanced">
+                                <i class="fas fa-code"></i> Advanced
+                            </button>
+                        </div>
+                        
+                        <!-- General Settings -->
+                        <div class="tab-content active" id="general-tab">
+                            <div class="settings-section">
+                                <h3><i class="fas fa-info-circle"></i> System Information</h3>
+                                <div class="settings-grid">
+                                    <div class="setting-item">
+                                        <label>System Name</label>
+                                        <input type="text" id="systemName" value="KelvinVMXZ Botnet">
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>Default Attack Duration (seconds)</label>
+                                        <input type="number" id="defaultDuration" value="60" min="10" max="3600">
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>Default Port</label>
+                                        <input type="number" id="defaultPort" value="80" min="1" max="65535">
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>Max Concurrent Attacks</label>
+                                        <input type="number" id="maxConcurrentGlobal" value="10" min="1" max="50">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-section">
+                                <h3><i class="fas fa-server"></i> CNC Settings</h3>
+                                <div class="settings-grid">
+                                    <div class="setting-item">
+                                        <label>Auto-start CNC on Login</label>
+                                        <label class="switch">
+                                            <input type="checkbox" id="autoStartCNC" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>VPS Connection Timeout (seconds)</label>
+                                        <input type="number" id="vpsTimeout" value="10" min="5" max="60">
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>Max VPS Connections</label>
+                                        <input type="number" id="maxVPSConnections" value="50" min="1" max="100">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Security Settings -->
+                        <div class="tab-content" id="security-tab">
+                            <div class="settings-section">
+                                <h3><i class="fas fa-lock"></i> Authentication</h3>
+                                <div class="settings-grid">
+                                    <div class="setting-item">
+                                        <label>Session Timeout (minutes)</label>
+                                        <input type="number" id="sessionTimeout" value="30" min="5" max="480">
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>Enable Two-Factor Authentication</label>
+                                        <label class="switch">
+                                            <input type="checkbox" id="enable2FA">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>Max Login Attempts</label>
+                                        <input type="number" id="maxLoginAttempts" value="5" min="1" max="10">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-section">
+                                <h3><i class="fas fa-key"></i> Encryption</h3>
+                                <div class="settings-grid">
+                                    <div class="setting-item">
+                                        <label>Encrypt VPS Credentials</label>
+                                        <label class="switch">
+                                            <input type="checkbox" id="encryptCredentials" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>Encrypt Attack Logs</label>
+                                        <label class="switch">
+                                            <input type="checkbox" id="encryptLogs">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Notifications Settings -->
+                        <div class="tab-content" id="notifications-tab">
+                            <div class="settings-section">
+                                <h3><i class="fas fa-bell"></i> Notification Preferences</h3>
+                                <div class="settings-grid">
+                                    <div class="setting-item">
+                                        <label>Attack Start/Stop Notifications</label>
+                                        <label class="switch">
+                                            <input type="checkbox" id="attackNotifications" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>VPS Status Change Notifications</label>
+                                        <label class="switch">
+                                            <input type="checkbox" id="vpsNotifications" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>User Login Notifications</label>
+                                        <label class="switch">
+                                            <input type="checkbox" id="loginNotifications">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>Error Notifications</label>
+                                        <label class="switch">
+                                            <input type="checkbox" id="errorNotifications" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Appearance Settings -->
+                        <div class="tab-content" id="appearance-tab">
+                            <div class="settings-section">
+                                <h3><i class="fas fa-eye"></i> Theme & Layout</h3>
+                                <div class="settings-grid">
+                                    <div class="setting-item">
+                                        <label>Theme</label>
+                                        <select id="themeSelect">
+                                            <option value="dark">Dark Theme</option>
+                                            <option value="light">Light Theme</option>
+                                            <option value="auto">Auto (System)</option>
+                                        </select>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>Font Size</label>
+                                        <select id="fontSize">
+                                            <option value="small">Small</option>
+                                            <option value="medium" selected>Medium</option>
+                                            <option value="large">Large</option>
+                                        </select>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>Sidebar Position</label>
+                                        <select id="sidebarPosition">
+                                            <option value="left">Left</option>
+                                            <option value="right">Right</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Advanced Settings -->
+                        <div class="tab-content" id="advanced-tab">
+                            <div class="settings-section">
+                                <h3><i class="fas fa-database"></i> Database</h3>
+                                <div class="settings-grid">
+                                    <div class="setting-item">
+                                        <label>Auto-backup Database</label>
+                                        <label class="switch">
+                                            <input type="checkbox" id="autoBackup" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>Backup Interval (hours)</label>
+                                        <input type="number" id="backupInterval" value="24" min="1" max="168">
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>Max Log Entries</label>
+                                        <input type="number" id="maxLogEntries" value="1000" min="100" max="10000">
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-actions">
+                                    <button class="btn-action" onclick="backupDatabase()">
+                                        <i class="fas fa-save"></i> Backup Now
+                                    </button>
+                                    <button class="btn-action" onclick="clearLogs()">
+                                        <i class="fas fa-trash"></i> Clear Old Logs
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-section">
+                                <h3><i class="fas fa-code"></i> Developer Options</h3>
+                                <div class="settings-grid">
+                                    <div class="setting-item">
+                                        <label>Enable Debug Mode</label>
+                                        <label class="switch">
+                                            <input type="checkbox" id="debugMode">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>API Logging</label>
+                                        <label class="switch">
+                                            <input type="checkbox" id="apiLogging">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Settings Actions -->
+                    <div class="settings-actions">
+                        <button class="btn-secondary" id="resetSettingsBtn">
+                            <i class="fas fa-undo"></i> Reset to Default
+                        </button>
+                        <button class="btn-primary" id="saveSettingsBtn">
+                            <i class="fas fa-save"></i> Save Settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <footer class="footer">
+                <p>KelvinVMXZ Botnet Pro v2.0 • Settings • System Time: <span id="systemTime">--:--:--</span></p>
+                <p class="warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Changes to settings may affect system functionality. Save carefully.
+                </p>
+            </footer>
+        </main>
+    </div>
+    
+    <!-- Notification Container -->
+    <div class="notification-container" id="notificationContainer"></div>
+    
+    <script src="js/auth.js"></script>
+    <script src="js/settings.js"></script>
+</body>
+</html>
