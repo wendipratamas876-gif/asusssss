@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 
@@ -11,6 +12,9 @@ app.use(cors({
 }));
 
 app.use(express.json());
+
+// Serve static files from 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // LOG middleware
 app.use((req, res, next) => {
@@ -98,4 +102,23 @@ app.use('/api/*', (req, res) => {
   res.status(404).json({ error: 'API endpoint not found' });
 });
 
-module.exports = app;
+// Serve HTML files from public directory
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// 🔥🔥🔥 MODIFIKASI INI DI BAGIAN PALING BAWAH 🔥🔥🔥
+// Jangan ada kode di bawah ini selain kode berikut:
+
+if (require.main === module) {
+  // Running as standalone server (local development)
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
+    console.log(`📁 Static files served from: ${path.join(__dirname, 'public')}`);
+    console.log(`🔗 Login endpoint: http://localhost:${PORT}/api/login`);
+  });
+} else {
+  // Export for Vercel Serverless Function
+  module.exports = app;
+}
