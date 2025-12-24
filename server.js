@@ -310,6 +310,9 @@ app.get('/api/health', (req, res) => {
 // Tambahkan endpoint ini di server.js setelah endpoint lainnya:
 
 // VPS Check All
+// Tambahkan endpoint ini di server.js setelah endpoint lainnya:
+
+// VPS Check All
 app.post('/api/vps/check-all', (req, res) => {
   // Simulate checking all VPS
   vpsDB.forEach(vps => {
