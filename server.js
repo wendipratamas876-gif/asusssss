@@ -1,104 +1,101 @@
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-// MIDDLEWARE - HARUS PERTAMA
-app.use(cors());
+// CORS middleware HARUS di awal
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-// LOG SEMUA REQUEST
+// LOG middleware
 app.use((req, res, next) => {
-    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-    console.log('Body:', req.body);
-    next();
+  console.log(`${new Date().toISOString()} ${req.method} ${req.path}`);
+  if (req.method === 'POST' && req.path === '/api/login') {
+    console.log('Login body:', JSON.stringify(req.body));
+  }
+  next();
 });
 
-// Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
-
-// API ROUTES
-app.get('/api/health', (req, res) => {
-    console.log('Health check OK');
-    res.json({ 
-        status: 'OK', 
-        message: 'KelvinVMXZ API is running',
-        timestamp: new Date().toISOString()
-    });
-});
-
-// LOGIN ENDPOINT - SIMPLE VERSION
+// Simple login endpoint
 app.post('/api/login', (req, res) => {
-    console.log('=== LOGIN ATTEMPT ===');
-    console.log('Username received:', req.body.username);
-    console.log('Password received:', req.body.password);
-    console.log('Full body:', req.body);
+  console.log('=== LOGIN REQUEST RECEIVED ===');
+  console.log('Body:', req.body);
+  
+  // Check if body exists
+  if (!req.body) {
+    console.log('No body received');
+    return res.status(400).json({ error: 'No data received' });
+  }
+  
+  const { username, password } = req.body;
+  
+  console.log(`Username: "${username}", Password: "${password}"`);
+  console.log(`Username type: ${typeof username}, Password type: ${typeof password}`);
+  
+  // Case insensitive check for username
+  const userLower = (username || '').toString().toLowerCase().trim();
+  const pass = (password || '').toString().trim();
+  
+  console.log(`After processing - Username: "${userLower}", Password: "${pass}"`);
+  
+  // HARDCODED CREDENTIALS
+  if (userLower === 'admin' && pass === 'kelvinvmxz') {
+    console.log('✅ LOGIN SUCCESSFUL');
     
-    // Cek jika request body kosong
-    if (!req.body || !req.body.username || !req.body.password) {
-        console.log('Missing username or password');
-        return res.status(400).json({ 
-            error: 'Username and password required',
-            received: req.body
-        });
-    }
-    
-    const { username, password } = req.body;
-    
-    // TRIM dan lowercase untuk aman
-    const user = username.toString().trim().toLowerCase();
-    const pass = password.toString().trim();
-    
-    console.log('Checking:', user, 'vs admin');
-    console.log('Password:', pass, 'vs kelvinvmxz');
-    
-    // SIMPLE CHECK - TANPA JWT DULU
-    if (user === 'admin' && pass === 'kelvinvmxz') {
-        console.log('✅ LOGIN SUCCESS');
-        
-        // Return simple token dulu
-        return res.json({
-            success: true,
-            message: 'Login successful',
-            token: 'kelvinvmxz_demo_token_' + Date.now(),
-            user: {
-                id: 1,
-                username: 'admin',
-                role: 'owner',
-                plan: 'ultimate',
-                maxConcurrent: 10,
-                maxDuration: 3600,
-                createdAt: new Date().toISOString()
-            }
-        });
-    }
-    
-    console.log('❌ LOGIN FAILED');
-    console.log('Expected: admin / kelvinvmxz');
-    console.log('Received:', user, '/', pass);
-    
-    return res.status(401).json({ 
-        success: false,
-        error: 'Invalid username or password',
-        hint: 'Use admin / kelvinvmxz',
-        received: { username: user, password_length: pass.length }
+    return res.json({
+      success: true,
+      message: 'Login successful',
+      token: 'kelvinvmxz_token_' + Date.now(),
+      user: {
+        id: 1,
+        username: 'admin',
+        role: 'owner',
+        plan: 'ultimate',
+        maxConcurrent: 10,
+        maxDuration: 3600
+      }
     });
+  }
+  
+  console.log('❌ LOGIN FAILED');
+  console.log(`Expected: admin / kelvinvmxz`);
+  console.log(`Got: ${userLower} / ${pass}`);
+  
+  return res.status(401).json({ 
+    error: 'Invalid username or password',
+    hint: 'Use: admin / kelvinvmxz',
+    received: {
+      username: userLower,
+      password_length: pass.length
+    }
+  });
 });
 
-// ALL OTHER ROUTES GO TO INDEX.HTML
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// Health check
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'OK',
+    message: 'KelvinVMXZ API is running',
+    timestamp: new Date().toISOString()
+  });
 });
 
-// START SERVER
-app.listen(PORT, () => {
-    console.log('\n=========================================');
-    console.log('🚀 KELVINVMXZ BOTNET CONTROL PANEL');
-    console.log(`📡 Server running on port ${PORT}`);
-    console.log(`🌐 http://localhost:${PORT}`);
-    console.log('🔑 Login: admin / kelvinvmxz');
-    console.log('=========================================\n');
+// Handle OPTIONS preflight
+app.options('*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.sendStatus(200);
 });
+
+// 404 for unknown API routes
+app.use('/api/*', (req, res) => {
+  res.status(404).json({ error: 'API endpoint not found' });
+});
+
+module.exports = app;
