@@ -307,6 +307,81 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Tambahkan endpoint ini di server.js setelah endpoint lainnya:
+
+// VPS Check All
+app.post('/api/vps/check-all', (req, res) => {
+  // Simulate checking all VPS
+  vpsDB.forEach(vps => {
+    vps.status = Math.random() > 0.3 ? 'online' : 'offline';
+    vps.lastSeen = new Date().toISOString();
+  });
+  
+  res.json({ 
+    message: 'VPS check completed', 
+    online: vpsDB.filter(v => v.status === 'online').length,
+    total: vpsDB.length 
+  });
+});
+
+// Check Host
+app.post('/api/check-host', (req, res) => {
+  const { ip, port, type } = req.body;
+  
+  res.json({
+    success: true,
+    data: {
+      ip,
+      port: port || 80,
+      type: type || 'tcp',
+      status: Math.random() > 0.5 ? 'online' : 'offline',
+      responseTime: Math.random() * 100,
+      timestamp: new Date().toISOString()
+    }
+  });
+});
+
+// Users management
+app.post('/api/users', (req, res) => {
+  const newUser = {
+    id: Date.now(),
+    ...req.body,
+    createdAt: new Date().toISOString(),
+    status: 'active'
+  };
+  
+  usersDB.push(newUser);
+  res.json({ message: 'User created', user: newUser });
+});
+
+app.put('/api/users/:id', (req, res) => {
+  const userId = parseInt(req.params.id);
+  const userIndex = usersDB.findIndex(u => u.id === userId);
+  
+  if (userIndex !== -1) {
+    usersDB[userIndex] = { ...usersDB[userIndex], ...req.body };
+    res.json({ message: 'User updated', user: usersDB[userIndex] });
+  } else {
+    res.status(404).json({ error: 'User not found' });
+  }
+});
+
+app.delete('/api/users/:id', (req, res) => {
+  const userId = parseInt(req.params.id);
+  const userIndex = usersDB.findIndex(u => u.id === userId);
+  
+  if (userIndex !== -1) {
+    // Don't allow deleting admin
+    if (usersDB[userIndex].role === 'owner') {
+      return res.status(400).json({ error: 'Cannot delete owner account' });
+    }
+    
+    usersDB.splice(userIndex, 1);
+    res.json({ message: 'User deleted' });
+  } else {
+    res.status(404).json({ error: 'User not found' });
+  }
+});
 // ========== FALLBACK ROUTES ==========
 // Handle all other API routes with 404
 app.all('/api/*', (req, res) => {
