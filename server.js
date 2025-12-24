@@ -23,8 +23,47 @@ app.get('/api/health', (req, res) => {
 
 app.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
+    console.log('Login attempt:', username, password); // Debug log
     
-    // Default admin credentials
+    // Default admin credentials - PAKAI BCRYPT COMPARE
+    if (username === 'admin') {
+        // Hash dari password 'kelvinvmxz'
+        const hashedPassword = 'admin';
+        
+        try {
+            const validPassword = await bcrypt.compare(password, hashedPassword);
+            
+            if (validPassword) {
+                const token = jwt.sign(
+                    { id: 1, username: 'admin', role: 'owner', plan: 'ultimate' },
+                    JWT_SECRET,
+                    { expiresIn: '24h' }
+                );
+                
+                return res.json({
+                    token,
+                    user: {
+                        id: 1,
+                        username: 'admin',
+                        role: 'owner',
+                        plan: 'ultimate',
+                        maxConcurrent: 10,
+                        maxDuration: 3600
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Bcrypt error:', error);
+        }
+    }
+    
+    res.status(401).json({ error: 'Invalid credentials' });
+});
+
+// Simpan untuk testing tanpa bcrypt (temporary):
+app.post('/api/login-simple', (req, res) => {
+    const { username, password } = req.body;
+    
     if (username === 'admin' && password === 'kelvinvmxz') {
         const token = jwt.sign(
             { id: 1, username: 'admin', role: 'owner', plan: 'ultimate' },
@@ -61,4 +100,5 @@ app.get('*', (req, res) => {
 app.listen(PORT, () => {
     console.log(`KelvinVMXZ Web Panel running on port ${PORT}`);
     console.log(`Access: http://localhost:${PORT}`);
+    console.log(`Default login: admin / kelvinvmxz`);
 });
