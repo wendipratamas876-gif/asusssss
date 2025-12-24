@@ -1,1 +1,838 @@
+/* users.css - Styles for User Management Page */
 
+.user-management {
+    padding: 0;
+}
+
+.user-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 30px;
+    padding: 25px;
+    background: var(--bg-card);
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+}
+
+.control-group {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn-add-user {
+    background: linear-gradient(45deg, var(--success-color), #26de81);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-add-user:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(46, 213, 115, 0.3);
+}
+
+.btn-bulk-users {
+    background: rgba(30, 144, 255, 0.1);
+    color: var(--info-color);
+    border: 1px solid rgba(30, 144, 255, 0.3);
+    padding: 12px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-bulk-users:hover {
+    background: rgba(30, 144, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.btn-export-users {
+    background: rgba(155, 89, 182, 0.1);
+    color: #9b59b6;
+    border: 1px solid rgba(155, 89, 182, 0.3);
+    padding: 12px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-export-users:hover {
+    background: rgba(155, 89, 182, 0.2);
+    transform: translateY(-2px);
+}
+
+.btn-refresh-users {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    padding: 12px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-refresh-users:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+.user-stats-bar {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-left: auto;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 180px;
+}
+
+.stat-card i {
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+
+.stat-info h3 {
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+    color: var(--text-primary);
+}
+
+.stat-info p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* User List Section */
+.user-list-section {
+    background: var(--bg-card);
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.section-header {
+    padding: 20px 25px;
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-primary);
+}
+
+.list-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.filter-users, .sort-users {
+    position: relative;
+}
+
+.filter-users select, .sort-users select {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    min-width: 150px;
+}
+
+.user-table-container {
+    overflow-x: auto;
+    padding: 0 25px;
+}
+
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.user-table th {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    text-align: left;
+    color: var(--text-secondary);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.user-table td {
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.user-table tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.user-table input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.loading-row {
+    text-align: center;
+}
+
+.loading-users {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+    gap: 20px;
+}
+
+.role-badge, .plan-badge, .status-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.role-badge.owner {
+    background: linear-gradient(45deg, #ff4757, #ff3838);
+    color: white;
+}
+
+.role-badge.reseller {
+    background: linear-gradient(45deg, #f39c12, #e67e22);
+    color: white;
+}
+
+.role-badge.user {
+    background: rgba(30, 144, 255, 0.1);
+    color: var(--info-color);
+}
+
+.plan-badge.free {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+}
+
+.plan-badge.basic {
+    background: rgba(30, 144, 255, 0.1);
+    color: var(--info-color);
+}
+
+.plan-badge.premium {
+    background: rgba(155, 89, 182, 0.1);
+    color: #9b59b6;
+}
+
+.plan-badge.ultimate {
+    background: linear-gradient(45deg, #ff4757, #ff3838);
+    color: white;
+}
+
+.status-badge.active {
+    background: rgba(46, 213, 115, 0.1);
+    color: var(--success-color);
+}
+
+.status-badge.inactive {
+    background: rgba(255, 71, 87, 0.1);
+    color: var(--danger-color);
+}
+
+.status-badge.suspended {
+    background: rgba(255, 165, 2, 0.1);
+    color: var(--warning-color);
+}
+
+.user-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-action {
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.btn-action:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+.btn-action.edit:hover {
+    background: rgba(30, 144, 255, 0.1);
+    color: var(--info-color);
+    border-color: rgba(30, 144, 255, 0.3);
+}
+
+.btn-action.delete:hover {
+    background: rgba(255, 71, 87, 0.1);
+    color: var(--danger-color);
+    border-color: rgba(255, 71, 87, 0.3);
+}
+
+.btn-action.view:hover {
+    background: rgba(46, 213, 115, 0.1);
+    color: var(--success-color);
+    border-color: rgba(46, 213, 115, 0.3);
+}
+
+.table-footer {
+    padding: 20px 25px;
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.selected-count {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.bulk-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-bulk-action {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.btn-bulk-action:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+.btn-bulk-action#bulkDeleteBtn:hover {
+    background: rgba(255, 71, 87, 0.1);
+    color: var(--danger-color);
+    border-color: rgba(255, 71, 87, 0.3);
+}
+
+.btn-bulk-action#bulkActivateBtn:hover {
+    background: rgba(46, 213, 115, 0.1);
+    color: var(--success-color);
+    border-color: rgba(46, 213, 115, 0.3);
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.page-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.page-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-info {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* User Details Panel */
+.user-details-panel {
+    background: var(--bg-card);
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.panel-header {
+    padding: 20px 25px;
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-primary);
+}
+
+.close-panel {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.8rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+}
+
+.close-panel:hover {
+    color: var(--text-primary);
+}
+
+.panel-body {
+    padding: 25px;
+}
+
+/* User Activity Section */
+.user-activity-section {
+    background: var(--bg-card);
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.activity-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 25px;
+}
+
+.metric-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.metric-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.metric-header i {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.metric-header h4 {
+    color: var(--text-primary);
+}
+
+.metric-chart {
+    height: 200px;
+    margin-bottom: 20px;
+}
+
+.metric-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.metric-stats .stat {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.metric-stats .stat span {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+}
+
+.metric-stats .stat strong {
+    display: block;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+}
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+}
+
+.activity-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 71, 87, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    flex-shrink: 0;
+}
+
+.activity-icon.success {
+    background: rgba(46, 213, 115, 0.1);
+    color: var(--success-color);
+}
+
+.activity-icon.warning {
+    background: rgba(255, 165, 2, 0.1);
+    color: var(--warning-color);
+}
+
+.activity-info {
+    flex: 1;
+}
+
+.activity-info p {
+    color: var(--text-primary);
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.activity-info p strong {
+    color: var(--primary-color);
+}
+
+.activity-time {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* Add/Edit User Modal Styles */
+.form-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.form-tabs .tab-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: 600;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.form-tabs .tab-btn.active {
+    color: var(--primary-color);
+}
+
+.form-tabs .tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -11px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 3px 3px 0 0;
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.permissions-section {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.permissions-section h4 {
+    color: var(--text-primary);
+    margin: 20px 0 15px 0;
+    font-size: 1rem;
+}
+
+.permissions-section h4:first-child {
+    margin-top: 0;
+}
+
+.permissions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.permission-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.permission-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.permission-item label {
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.plan-selection {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.plan-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.plan-card:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-5px);
+}
+
+.plan-card.selected {
+    border-color: var(--primary-color);
+    background: rgba(255, 71, 87, 0.05);
+}
+
+.plan-card h5 {
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.plan-price {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.plan-features {
+    text-align: left;
+    margin-top: 15px;
+}
+
+.plan-features ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.plan-features li {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    padding: 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.plan-features li i {
+    color: var(--success-color);
+    font-size: 0.8rem;
+}
+
+.custom-limits {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.custom-limits h4 {
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .user-stats-bar {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .stat-card {
+        flex: 1;
+        min-width: 150px;
+    }
+}
+
+@media (max-width: 768px) {
+    .user-controls {
+        flex-direction: column;
+    }
+    
+    .control-group {
+        justify-content: center;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+    
+    .list-controls {
+        flex-direction: column;
+    }
+    
+    .table-footer {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .bulk-actions {
+        justify-content: center;
+    }
+    
+    .activity-metrics {
+        grid-template-columns: 1fr;
+    }
+    
+    .permissions-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .plans-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-add-user,
+    .btn-bulk-users,
+    .btn-export-users,
+    .btn-refresh-users {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .stat-card {
+        min-width: 100%;
+    }
+    
+    .user-table th,
+    .user-table td {
+        padding: 10px 5px;
+        font-size: 0.9rem;
+    }
+    
+    .btn-action {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8rem;
+    }
+    
+    .btn-bulk-action {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+}
