@@ -5,6 +5,8 @@ const path = require('path');
 const { exec } = require('child_process');
 const { Client } = require('ssh2');
 const net = require('net');
+// Di bagian atas server.js
+const JWT_SECRET = process.env.JWT_SECRET || 'default_fallback_secret_change_in_production';
 const axios = require('axios');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
