@@ -1,1 +1,67 @@
-
+{
+  "free": {
+    "name": "Free",
+    "price": 0,
+    "currency": "USD",
+    "maxConcurrent": 1,
+    "maxDuration": 30,
+    "methods": ["syn-pps", "icmp-pps"],
+    "support": "Email Only",
+    "vpsAccess": "Shared",
+    "attackPower": "Low",
+    "features": ["Basic Attacks", "Email Support", "Shared Resources"],
+    "color": "#666"
+  },
+  "basic": {
+    "name": "Basic",
+    "price": 9.99,
+    "currency": "USD",
+    "maxConcurrent": 3,
+    "maxDuration": 600,
+    "methods": ["syn-pps", "syn-gbps", "ack-pps", "icmp-pps"],
+    "support": "Priority Email",
+    "vpsAccess": "Dedicated Pool",
+    "attackPower": "Medium",
+    "features": ["4 Attack Methods", "Priority Support", "Dedicated VPS Pool", "Attack History"],
+    "color": "#1e90ff"
+  },
+  "premium": {
+    "name": "Premium",
+    "price": 24.99,
+    "currency": "USD",
+    "maxConcurrent": 5,
+    "maxDuration": 1800,
+    "methods": ["syn-pps", "syn-gbps", "ack-pps", "ack-gbps", "icmp-pps", "icmp-gbps", "rand-udp", "rand-syn"],
+    "support": "24/7 Chat",
+    "vpsAccess": "Premium Pool",
+    "attackPower": "High",
+    "features": ["8 Attack Methods", "24/7 Support", "Premium VPS", "Extended Duration", "Advanced Tools"],
+    "color": "#9b59b6"
+  },
+  "ultimate": {
+    "name": "Ultimate",
+    "price": 49.99,
+    "currency": "USD",
+    "maxConcurrent": 10,
+    "maxDuration": 3600,
+    "methods": ["all"],
+    "support": "Priority 24/7",
+    "vpsAccess": "All VPS",
+    "attackPower": "Maximum",
+    "features": ["All Attack Methods", "Priority 24/7 Support", "All VPS Access", "Max Duration", "Reseller Tools", "API Access", "Custom Methods"],
+    "color": "#e74c3c"
+  },
+  "reseller": {
+    "name": "Reseller",
+    "price": 99.99,
+    "currency": "USD",
+    "maxConcurrent": 20,
+    "maxDuration": 7200,
+    "methods": ["all"],
+    "support": "Direct Support",
+    "vpsAccess": "All + Priority",
+    "attackPower": "Extreme",
+    "features": ["All Features", "Reseller Panel", "User Management", "Custom Pricing", "White Label", "API Management"],
+    "color": "#f39c12"
+  }
+}
