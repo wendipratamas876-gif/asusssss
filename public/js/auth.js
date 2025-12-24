@@ -1,8 +1,6 @@
 class Auth {
     constructor() {
-        this.apiUrl = window.location.origin.includes('localhost') 
-            ? 'http://localhost:3000/api'
-            : '/api';
+        this.apiUrl = window.location.origin + '/api';
         
         this.init();
     }
@@ -17,10 +15,16 @@ class Auth {
         try {
             const response = await fetch(`${this.apiUrl}/health`);
             if (response.ok) {
-                document.getElementById('apiStatus').innerHTML = '<span class="status-ok">Online</span>';
+                const statusElement = document.getElementById('apiStatus');
+                if (statusElement) {
+                    statusElement.innerHTML = '<span class="status-ok">Online</span>';
+                }
             }
         } catch (error) {
-            document.getElementById('apiStatus').innerHTML = '<span class="status-error">Offline</span>';
+            const statusElement = document.getElementById('apiStatus');
+            if (statusElement) {
+                statusElement.innerHTML = '<span class="status-error">Offline</span>';
+            }
         }
     }
     
@@ -68,10 +72,11 @@ class Auth {
         const spinner = document.getElementById('loginSpinner');
         
         loginBtn.disabled = true;
-        spinner.style.display = 'inline-block';
+        if (spinner) spinner.style.display = 'inline-block';
         
         try {
-            const response = await fetch(`${this.apiUrl}/login`, {
+            // Coba endpoint simple dulu untuk testing
+            const response = await fetch(`${this.apiUrl}/login-simple`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
@@ -80,24 +85,46 @@ class Auth {
             const data = await response.json();
             
             if (!response.ok) {
-                throw new Error(data.error || 'Login failed');
+                // Fallback ke endpoint regular
+                const response2 = await fetch(`${this.apiUrl}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data2 = await response2.json();
+                
+                if (!response2.ok) {
+                    throw new Error(data2.error || 'Login failed');
+                }
+                
+                // Store token and user data
+                localStorage.setItem('token', data2.token);
+                localStorage.setItem('user', JSON.stringify(data2.user));
+                
+                this.showNotification('Login successful! Redirecting...', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'panel.html';
+                }, 1000);
+                
+            } else {
+                // Store token and user data
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                
+                this.showNotification('Login successful! Redirecting...', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'panel.html';
+                }, 1000);
             }
-            
-            // Store token and user data
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.user));
-            
-            this.showNotification('Login successful! Redirecting...', 'success');
-            
-            setTimeout(() => {
-                window.location.href = 'panel.html';
-            }, 1000);
             
         } catch (error) {
             this.showNotification(error.message, 'error');
         } finally {
             loginBtn.disabled = false;
-            spinner.style.display = 'none';
+            if (spinner) spinner.style.display = 'none';
         }
     }
     
@@ -108,8 +135,13 @@ class Auth {
     }
     
     showNotification(message, type = 'info') {
-        const notification = document.getElementById('notification');
-        if (!notification) return;
+        // Cari notification element atau buat baru
+        let notification = document.getElementById('notification');
+        if (!notification) {
+            notification = document.createElement('div');
+            notification.id = 'notification';
+            document.body.appendChild(notification);
+        }
         
         notification.textContent = message;
         notification.className = `notification ${type}`;
@@ -139,21 +171,26 @@ class Auth {
         const defaultOptions = {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': token ? `Bearer ${token}` : ''
             }
         };
         
-        const response = await fetch(`${window.auth.apiUrl}${endpoint}`, {
-            ...defaultOptions,
-            ...options
-        });
-        
-        if (response.status === 401) {
-            window.auth.logout();
-            return null;
+        try {
+            const response = await fetch(`${window.auth.apiUrl}${endpoint}`, {
+                ...defaultOptions,
+                ...options
+            });
+            
+            if (response.status === 401) {
+                window.auth.logout();
+                return null;
+            }
+            
+            return response.json();
+        } catch (error) {
+            console.error('API Request failed:', error);
+            throw error;
         }
-        
-        return response.json();
     }
 }
 
