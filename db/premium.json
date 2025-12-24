@@ -1,1 +1,35 @@
-
+[
+  {
+    "userId": 1,
+    "username": "admin",
+    "plan": "ultimate",
+    "startDate": "2024-01-01T00:00:00.000Z",
+    "endDate": "2025-01-01T00:00:00.000Z",
+    "paymentMethod": "lifetime",
+    "status": "active",
+    "autoRenew": false,
+    "paymentId": "LT-ADMIN-001"
+  },
+  {
+    "userId": 2,
+    "username": "reseller1",
+    "plan": "premium",
+    "startDate": "2024-01-05T00:00:00.000Z",
+    "endDate": "2024-04-05T00:00:00.000Z",
+    "paymentMethod": "paypal",
+    "status": "active",
+    "autoRenew": true,
+    "paymentId": "PP-RES1-20240105"
+  },
+  {
+    "userId": 3,
+    "username": "user1",
+    "plan": "basic",
+    "startDate": "2024-01-10T00:00:00.000Z",
+    "endDate": "2024-02-10T00:00:00.000Z",
+    "paymentMethod": "crypto",
+    "status": "active",
+    "autoRenew": false,
+    "paymentId": "BTC-TX-ABC123XYZ"
+  }
+]
