@@ -1,1 +1,589 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KelvinVMXZ - User Management</title>
+    <link rel="stylesheet" href="style/panel.css">
+    <link rel="stylesheet" href="style/users.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-skull-crossbones"></i>
+                    <h2>KelvinVMXZ</h2>
+                </div>
+                <p class="user-plan" id="userPlan">Ultimate</p>
+            </div>
+            
+            <div class="user-info">
+                <div class="avatar">
+                    <i class="fas fa-user-secret"></i>
+                </div>
+                <div class="user-details">
+                    <h3 id="usernameDisplay">Admin</h3>
+                    <p id="userRole">Owner</p>
+                </div>
+            </div>
+            
+            <ul class="nav-menu">
+                <li>
+                    <a href="panel.html">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="attacks.html">
+                        <i class="fas fa-bolt"></i>
+                        <span>Attack Hub</span>
+                        <span class="badge" id="ongoingBadge">0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="vps.html">
+                        <i class="fas fa-server"></i>
+                        <span>VPS Nodes</span>
+                        <span class="badge" id="vpsBadge">0</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="#">
+                        <i class="fas fa-users-cog"></i>
+                        <span>User Management</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="logs.html">
+                        <i class="fas fa-history"></i>
+                        <span>Attack History</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="tools.html">
+                        <i class="fas fa-tools"></i>
+                        <span>Tools</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="settings.html">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <div class="cnc-status">
+                    <div class="status-label">
+                        <i class="fas fa-plug"></i>
+                        <span>CNC Status:</span>
+                    </div>
+                    <div class="status-value" id="cncStatus">OFFLINE</div>
+                </div>
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchUsers" placeholder="Search users by name, email...">
+                </div>
+                
+                <div class="top-bar-right">
+                    <div class="quick-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-bolt"></i>
+                            <span>Attacks: <strong id="quickAttacks">0</strong></span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-users"></i>
+                            <span>Users: <strong id="userCount">0</strong></span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-clock"></i>
+                            <span id="currentTime">00:00:00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="user-menu">
+                        <button class="notifications" id="notificationsBtn">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-count">0</span>
+                        </button>
+                        <button class="theme-toggle" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- User Management Content -->
+            <div class="content-area">
+                <div class="user-management">
+                    <div class="page-header">
+                        <h1><i class="fas fa-users-cog"></i> User Management</h1>
+                        <p>Manage users, plans, permissions and monitor user activity</p>
+                    </div>
+                    
+                    <div class="user-controls">
+                        <div class="control-group">
+                            <button class="btn-add-user" id="addUserBtn">
+                                <i class="fas fa-user-plus"></i> Add New User
+                            </button>
+                            <button class="btn-bulk-users" id="bulkUsersBtn">
+                                <i class="fas fa-users"></i> Bulk Add Users
+                            </button>
+                            <button class="btn-export-users" id="exportUsersBtn">
+                                <i class="fas fa-file-export"></i> Export Users
+                            </button>
+                            <button class="btn-refresh-users" id="refreshUsersBtn">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                        
+                        <div class="user-stats-bar">
+                            <div class="stat-card">
+                                <i class="fas fa-user-friends"></i>
+                                <div class="stat-info">
+                                    <h3 id="totalUsers">0</h3>
+                                    <p>Total Users</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-crown"></i>
+                                <div class="stat-info">
+                                    <h3 id="premiumUsers">0</h3>
+                                    <p>Premium Users</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-user-tie"></i>
+                                <div class="stat-info">
+                                    <h3 id="resellerUsers">0</h3>
+                                    <p>Resellers</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-user-clock"></i>
+                                <div class="stat-info">
+                                    <h3 id="activeUsers">0</h3>
+                                    <p>Active Today</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- User List -->
+                    <div class="user-list-section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-list"></i> All Users</h3>
+                            <div class="list-controls">
+                                <div class="filter-users">
+                                    <select id="filterUsers">
+                                        <option value="all">All Users</option>
+                                        <option value="owner">Owners</option>
+                                        <option value="reseller">Resellers</option>
+                                        <option value="user">Regular Users</option>
+                                        <option value="premium">Premium Only</option>
+                                        <option value="active">Active Only</option>
+                                        <option value="inactive">Inactive</option>
+                                    </select>
+                                </div>
+                                <div class="sort-users">
+                                    <select id="sortUsers">
+                                        <option value="name">Sort by Name</option>
+                                        <option value="date">Sort by Date</option>
+                                        <option value="plan">Sort by Plan</option>
+                                        <option value="role">Sort by Role</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="user-table-container">
+                            <table class="user-table" id="userTable">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <input type="checkbox" id="selectAllUsers">
+                                        </th>
+                                        <th>ID</th>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Plan</th>
+                                        <th>Status</th>
+                                        <th>Created</th>
+                                        <th>Last Login</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="userTableBody">
+                                    <!-- Users will be loaded by JavaScript -->
+                                    <tr class="loading-row">
+                                        <td colspan="10">
+                                            <div class="loading-users">
+                                                <div class="loader"></div>
+                                                <p>Loading users...</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="table-footer">
+                            <div class="selected-count">
+                                <span id="selectedUsersCount">0</span> users selected
+                            </div>
+                            <div class="bulk-actions">
+                                <button class="btn-bulk-action" id="bulkActivateBtn">
+                                    <i class="fas fa-check-circle"></i> Activate
+                                </button>
+                                <button class="btn-bulk-action" id="bulkSuspendBtn">
+                                    <i class="fas fa-ban"></i> Suspend
+                                </button>
+                                <button class="btn-bulk-action" id="bulkDeleteBtn">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                                <button class="btn-bulk-action" id="bulkChangePlanBtn">
+                                    <i class="fas fa-sync"></i> Change Plan
+                                </button>
+                            </div>
+                            <div class="pagination">
+                                <button class="page-btn" disabled>
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span class="page-info">Page <strong>1</strong> of <strong>1</strong></span>
+                                <button class="page-btn">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- User Details Panel -->
+                    <div class="user-details-panel" id="userDetailsPanel" style="display: none;">
+                        <div class="panel-header">
+                            <h3><i class="fas fa-user-circle"></i> User Details</h3>
+                            <button class="close-panel" id="closeUserDetails">&times;</button>
+                        </div>
+                        <div class="panel-body" id="userDetailsContent">
+                            <!-- User details will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <!-- User Activity -->
+                    <div class="user-activity-section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-chart-line"></i> User Activity & Statistics</h3>
+                            <div class="time-range">
+                                <select id="activityRange">
+                                    <option value="today">Today</option>
+                                    <option value="week" selected>Last 7 Days</option>
+                                    <option value="month">Last 30 Days</option>
+                                    <option value="all">All Time</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-metrics">
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <i class="fas fa-bolt"></i>
+                                    <h4>Attack Activity</h4>
+                                </div>
+                                <div class="metric-chart">
+                                    <canvas id="attackActivityChart"></canvas>
+                                </div>
+                                <div class="metric-stats">
+                                    <div class="stat">
+                                        <span>Total Attacks:</span>
+                                        <strong id="totalAttacksStat">0</strong>
+                                    </div>
+                                    <div class="stat">
+                                        <span>Avg per User:</span>
+                                        <strong id="avgAttacksStat">0</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <i class="fas fa-chart-pie"></i>
+                                    <h4>Plan Distribution</h4>
+                                </div>
+                                <div class="metric-chart">
+                                    <canvas id="planDistributionChart"></canvas>
+                                </div>
+                                <div class="metric-stats">
+                                    <div class="stat">
+                                        <span>Most Common:</span>
+                                        <strong id="commonPlan">-</strong>
+                                    </div>
+                                    <div class="stat">
+                                        <span>Revenue:</span>
+                                        <strong id="totalRevenue">$0</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <i class="fas fa-history"></i>
+                                    <h4>Recent Activity</h4>
+                                </div>
+                                <div class="activity-list" id="userActivityList">
+                                    <div class="activity-item">
+                                        <div class="activity-icon">
+                                            <i class="fas fa-user-plus"></i>
+                                        </div>
+                                        <div class="activity-info">
+                                            <p>New user registered: <strong>john_doe</strong></p>
+                                            <span class="activity-time">10 minutes ago</span>
+                                        </div>
+                                    </div>
+                                    <div class="activity-item">
+                                        <div class="activity-icon success">
+                                            <i class="fas fa-bolt"></i>
+                                        </div>
+                                        <div class="activity-info">
+                                            <p><strong>reseller1</strong> launched SYN-PPS attack</p>
+                                            <span class="activity-time">25 minutes ago</span>
+                                        </div>
+                                    </div>
+                                    <div class="activity-item">
+                                        <div class="activity-icon warning">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                        </div>
+                                        <div class="activity-info">
+                                            <p><strong>user2</strong> reached attack limit</p>
+                                            <span class="activity-time">1 hour ago</span>
+                                        </div>
+                                    </div>
+                                    <div class="activity-item">
+                                        <div class="activity-icon">
+                                            <i class="fas fa-credit-card"></i>
+                                        </div>
+                                        <div class="activity-info">
+                                            <p><strong>user1</strong> upgraded to Premium plan</p>
+                                            <span class="activity-time">2 hours ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <footer class="footer">
+                <p>KelvinVMXZ Botnet Pro v2.0 • User Management • System Time: <span id="systemTime">--:--:--</span></p>
+                <p class="warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    User management requires owner permissions. Changes are irreversible.
+                </p>
+            </footer>
+        </main>
+    </div>
+    
+    <!-- Notification Container -->
+    <div class="notification-container" id="notificationContainer"></div>
+    
+    <!-- Add User Modal -->
+    <div class="modal" id="addUserModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-plus"></i> Add New User</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addUserForm">
+                    <div class="form-tabs">
+                        <button type="button" class="tab-btn active" data-tab="basic">Basic Info</button>
+                        <button type="button" class="tab-btn" data-tab="permissions">Permissions</button>
+                        <button type="button" class="tab-btn" data-tab="plan">Plan & Limits</button>
+                    </div>
+                    
+                    <div class="tab-content active" data-tab="basic">
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> Username</label>
+                            <input type="text" id="newUsername" placeholder="Enter username" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-envelope"></i> Email Address</label>
+                            <input type="email" id="newEmail" placeholder="user@example.com" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fas fa-key"></i> Password</label>
+                                <div class="password-input">
+                                    <input type="password" id="newPassword" required>
+                                    <button type="button" class="toggle-password">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-key"></i> Confirm Password</label>
+                                <div class="password-input">
+                                    <input type="password" id="confirmPassword" required>
+                                    <button type="button" class="toggle-password">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-user-tag"></i> User Role</label>
+                            <select id="userRoleSelect" required>
+                                <option value="user">Regular User</option>
+                                <option value="reseller">Reseller</option>
+                                <option value="admin">Administrator</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" data-tab="permissions">
+                        <div class="permissions-section">
+                            <h4>Attack Permissions</h4>
+                            <div class="permissions-grid">
+                                <div class="permission-item">
+                                    <input type="checkbox" id="permSyn" checked>
+                                    <label for="permSyn">SYN Flood Methods</label>
+                                </div>
+                                <div class="permission-item">
+                                    <input type="checkbox" id="permAck" checked>
+                                    <label for="permAck">ACK Flood Methods</label>
+                                </div>
+                                <div class="permission-item">
+                                    <input type="checkbox" id="permIcmp" checked>
+                                    <label for="permIcmp">ICMP Flood Methods</label>
+                                </div>
+                                <div class="permission-item">
+                                    <input type="checkbox" id="permUdp">
+                                    <label for="permUdp">UDP Flood Methods</label>
+                                </div>
+                                <div class="permission-item">
+                                    <input type="checkbox" id="permAdvanced">
+                                    <label for="permAdvanced">Advanced Methods</label>
+                                </div>
+                                <div class="permission-item">
+                                    <input type="checkbox" id="permCustom">
+                                    <label for="permCustom">Custom Methods</label>
+                                </div>
+                            </div>
+                            
+                            <h4>Access Permissions</h4>
+                            <div class="permissions-grid">
+                                <div class="permission-item">
+                                    <input type="checkbox" id="permVpsView">
+                                    <label for="permVpsView">View VPS Status</label>
+                                </div>
+                                <div class="permission-item">
+                                    <input type="checkbox" id="permVpsManage">
+                                    <label for="permVpsManage">Manage VPS</label>
+                                </div>
+                                <div class="permission-item">
+                                    <input type="checkbox" id="permUserView">
+                                    <label for="permUserView">View Other Users</label>
+                                </div>
+                                <div class="permission-item">
+                                    <input type="checkbox" id="permTools">
+                                    <label for="permTools">Access Tools</label>
+                                </div>
+                                <div class="permission-item">
+                                    <input type="checkbox" id="permApi">
+                                    <label for="permApi">API Access</label>
+                                </div>
+                                <div class="permission-item">
+                                    <input type="checkbox" id="permReports">
+                                    <label for="permReports">Generate Reports</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" data-tab="plan">
+                        <div class="plan-selection">
+                            <h4>Select User Plan</h4>
+                            <div class="plans-grid" id="plansGrid">
+                                <!-- Plans will be loaded dynamically -->
+                            </div>
+                            
+                            <div class="custom-limits">
+                                <h4>Custom Limits (Optional)</h4>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Max Concurrent Attacks</label>
+                                        <input type="number" id="maxConcurrent" min="1" max="50" value="5">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Max Attack Duration (seconds)</label>
+                                        <input type="number" id="maxDuration" min="30" max="86400" value="1800">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Daily Attack Limit</label>
+                                        <input type="number" id="dailyLimit" min="1" max="1000" value="20">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Bandwidth Limit (Mbps)</label>
+                                        <input type="number" id="bandwidthLimit" min="100" max="10000" value="1000">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Expiration Date</label>
+                                    <input type="date" id="expirationDate">
+                                    <small class="form-help">Leave empty for no expiration</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary close-modal">Cancel</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-user-plus"></i> Create User
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit User Modal -->
+    <div class="modal" id="editUserModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-edit"></i> Edit User</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="editUserContent">
+                <!-- Edit form will be loaded here -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/auth.js"></script>
+    <script src="js/users.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
