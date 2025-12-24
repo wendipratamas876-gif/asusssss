@@ -1,40 +1,44 @@
 // api/login/index.js
-const users = require('../../db/users.json');
+const express = require('express');
+
+const app = express();
+app.use(express.json());
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  try {
-    const { email, password } = req.body;
+  console.log('=== LOGIN REQUEST RECEIVED ===');
+  console.log('Body:', req.body);
+  
+  const { username, password } = req.body || {};
+  
+  const userLower = (username || '').toString().toLowerCase().trim();
+  const pass = (password || '').toString().trim();
+  
+  if (userLower === 'admin' && pass === 'kelvinvmxz') {
+    console.log('✅ LOGIN SUCCESSFUL');
     
-    console.log('Login attempt:', { email, password });
-    
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password required' });
-    }
-    
-    // Cari user di database
-    const user = users.find(u => 
-      (u.email === email || u.username === email) && u.password === password
-    );
-    
-    if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials' });
-    }
-    
-    // Hapus password dari response
-    const { password: _, ...userWithoutPassword } = user;
-    
-    return res.status(200).json({
+    return res.json({
       success: true,
-      user: userWithoutPassword,
-      token: 'your-jwt-token-here' // Generate JWT jika perlu
+      message: 'Login successful',
+      token: 'kelvinvmxz_token_' + Date.now(),
+      user: {
+        id: 1,
+        username: 'admin',
+        role: 'owner',
+        plan: 'ultimate',
+        maxConcurrent: 10,
+        maxDuration: 3600
+      }
     });
-    
-  } catch (error) {
-    console.error('Login error:', error);
-    return res.status(500).json({ error: 'Internal server error' });
   }
+  
+  console.log('❌ LOGIN FAILED');
+  
+  return res.status(401).json({ 
+    error: 'Invalid username or password',
+    hint: 'Use: admin / kelvinvmxz'
+  });
 };
